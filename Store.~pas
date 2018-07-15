@@ -1,0 +1,33 @@
+unit Store;
+
+interface
+
+uses
+  ADODB;
+
+type
+  TStore = class(TObject)
+  public
+    constructor Create();
+  private
+    dbConn: TADOConnection;
+  end;
+
+var
+  Store: TStore;
+
+implementation
+
+procedure TStore.Create();
+begin
+  Self.dbConn := TADOConnection.Create(nil);
+  Self.dbConn
+end;
+
+initialization
+  Store := TStore.Create;
+
+finalization
+
+end.
+
