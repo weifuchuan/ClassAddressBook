@@ -4,7 +4,8 @@ uses
   Forms,
   MainUnit in 'MainUnit.pas' {MainForm},
   LoginUnit in 'LoginUnit.pas' {Login},
-  StoreUnit in 'StoreUnit.pas';
+  StoreUnit in 'StoreUnit.pas',
+  RegExpr in 'RegExpr.pas';
 
 {$R *.res}
 

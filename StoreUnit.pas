@@ -41,7 +41,8 @@ constructor TStore.Create();
 begin
   CoInitialize(nil); // Must be called but I don't know why.
   Self.dbConn := TADOConnection.Create(nil);
-  Self.dbConn.ConnectionString := 'Provider=Microsoft.ACE.OLEDB.12.0;Data Source=ClassAddressBook.mdb';
+  //Provider=Microsoft.Jet.OLEDB.4.0;Data Source=ClassAddressBook.mdb;Persist Security Info=False
+  Self.dbConn.ConnectionString := 'Provider=Microsoft.Jet.OLEDB.4.0;Data Source=ClassAddressBook.mdb;Persist Security Info=False';
   Self.dbConn.Open;
 
   Self.userTable := TADOTable.Create(nil);
@@ -64,10 +65,10 @@ begin
     begin
       Clear;
 //      Add('insert into `user`(username, password) values(:username, :password)');
-      Text := 'insert into `user`(username, password) values(:username, :password)';
+      Text := 'insert into `user`(`username`, `password`) values(:username, :password)';
     end;
     Prepared := True;
-    Open;
+//    Open;
   end;
 
 end;
@@ -112,6 +113,7 @@ var
 begin
   with Self do
   begin
+    addUser.Close;
     userTable.Filtered := False;
     userTable.Filter := 'username=''' + username + '''';
     userTable.Filtered := True;
@@ -119,7 +121,6 @@ begin
     begin
       with addUser do
       begin
-        Parameters.Clear;
         Parameters.ParamByName('username').Value := username;
         Parameters.ParamByName('password').Value := password;
         insertedRowCnt := ExecSQL;
@@ -140,6 +141,7 @@ begin
       rr.Error := UserNameHasExists;
     end;
     userTable.Filtered := false;
+    addUser.Close;
   end;
   Result := rr;
 end;

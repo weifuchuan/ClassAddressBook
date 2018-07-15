@@ -30,7 +30,33 @@ implementation
 {$R *.dfm}
 
 uses
-  StoreUnit;
+  StoreUnit, RegExpr;
+
+function judgeUserName(const UserName: WideString): Boolean;
+begin
+  if Length(UserName) >= 1 then
+  begin
+    Result := True;
+  end
+  else
+  begin
+    ShowMessage('用户名长度必须大于1');
+    Result := False;
+  end;
+end;
+
+function judgePassword(const password: WideString): Boolean;
+begin
+  if ExecRegExpr('[a-zA-Z0-9_-]{6,200}', password) then
+  begin
+    Result := True;
+  end
+  else
+  begin
+    ShowMessage('密码必须为6-200位的字母、数字、-、_)');
+    Result := False;
+  end;
+end;
 
 procedure TLogin.btnLoginClick(Sender: TObject);
 var
@@ -65,7 +91,15 @@ var
   rr: RegResult;
 begin
   userName := Trim(editUserName.Text);
+  if not judgeUserName(userName) then
+  begin
+    Exit;
+  end;
   password := Trim(editPassword.Text);
+  if not judgeUserName(password) then
+  begin
+    Exit;
+  end;
   rr := Store.Reg(userName, password);
   if rr.Ok then
   begin
