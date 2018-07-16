@@ -4,7 +4,7 @@ interface
 
 uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
-  Dialogs, StdCtrls, Menus;
+  Dialogs, StdCtrls, Menus, Buttons, ExtCtrls, ComCtrls;
 
 type
   TMainForm = class(TForm)
@@ -30,11 +30,14 @@ implementation
 {$R *.dfm}
 
 uses
-  StoreUnit, LoginUnit;
+  StoreUnit, LoginUnit, StudentFrameUnit, UserUnit;
 
 procedure TMainForm.FormPaint(Sender: TObject);
 begin
-  Login.ShowModal;
+  if not Store.Loged then
+  begin
+    Login.ShowModal;
+  end;
 end;
 
 procedure TMainForm.mItemQuitClick(Sender: TObject);

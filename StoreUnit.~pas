@@ -25,10 +25,13 @@ type
     dbConn: TADOConnection;
     userTable: TADOTable;
     logedUserId: Integer;
-//    dataSet: TADODataSet;
     addUser: TADOQuery;
     constructor Create();
+    function HasLoged: Boolean;
+    function GetConn: TADOConnection;
   public
+    property Loged: Boolean read HasLoged;
+    property Conn: TADOConnection read GetConn;
     destructor Destruct();
   end;
 
@@ -64,11 +67,9 @@ begin
     with SQL do
     begin
       Clear;
-//      Add('insert into `user`(username, password) values(:username, :password)');
       Text := 'insert into `user`(`username`, `password`) values(:username, :password)';
     end;
     Prepared := True;
-//    Open;
   end;
 
 end;
@@ -76,11 +77,13 @@ end;
 function TStore.Login(const username, password: WideString): LoginResult;
 var
   lr: LoginResult;
+  filter: string;
 begin
   with Self do
   begin
     userTable.Filtered := False;
-    userTable.Filter := 'username=''' + username + '''';
+    filter := 'username=''' + string(username) + '''';
+    userTable.Filter := filter;
     userTable.Filtered := True;
     if userTable.RecordCount = 1 then
     begin
@@ -141,9 +144,19 @@ begin
       rr.Error := UserNameHasExists;
     end;
     userTable.Filtered := false;
-    addUser.Close; 
+    addUser.Close;
   end;
   Result := rr;
+end;
+
+function TStore.HasLoged: Boolean;
+begin
+  Result := not self.logedUserId = 0;
+end;
+
+function TStore.GetConn: TADOConnection;
+begin
+  Result := self.dbConn;
 end;
 
 procedure TStore.Quit();
