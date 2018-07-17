@@ -77,8 +77,8 @@ begin
         list[i] := from(Query);
         Next;
       end;
+      Close;
     end;
-    Close;
   end;
   Result := list;
 end;

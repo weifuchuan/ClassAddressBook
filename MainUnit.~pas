@@ -8,14 +8,10 @@ uses
 
 type
   TMainForm = class(TForm)
-    menu: TMainMenu;
-    mItemFile: TMenuItem;
-    mItemHelp: TMenuItem;
-    mItemQuit: TMenuItem;
-    mItemQuitLogin: TMenuItem;
     procedure FormPaint(Sender: TObject);
     procedure mItemQuitClick(Sender: TObject);
     procedure mItemQuitLoginClick(Sender: TObject);
+    procedure btnTryClick(Sender: TObject);
   private
     { Private declarations }
   public
@@ -30,7 +26,8 @@ implementation
 {$R *.dfm}
 
 uses
-  StoreUnit, LoginUnit, StudentFrameUnit, UserUnit;
+  StoreUnit, LoginUnit, StudentFrameUnit, UserUnit, StudentUnit, ClazzFrameUnit,
+  ClazzUnit;
 
 procedure TMainForm.FormPaint(Sender: TObject);
 begin
@@ -49,6 +46,19 @@ procedure TMainForm.mItemQuitLoginClick(Sender: TObject);
 begin
   Store.Quit;
   Login.ShowModal;
+end;
+
+procedure TMainForm.btnTryClick(Sender: TObject);
+var
+  clzFrm: TframeClazz;
+  clz: TClazz;
+  stdnts: TStudentList;
+begin
+  clzFrm := TframeClazz.Create(Self);
+  clz := ClazzDao.GetById(1);
+  stdnts := StudentDao.FindByCLazzId(1);
+  clzFrm.Init(clz, stdnts);
+  self.panelTry.InsertControl(clzFrm);
 end;
 
 end.

@@ -11,7 +11,9 @@ uses
   ClazzUnit in 'ClazzUnit.pas',
   UserUnit in 'UserUnit.pas',
   ExceptionsUnit in 'ExceptionsUnit.pas',
-  ClazzFrameUnit in 'ClazzFrameUnit.pas' {frameClazz: TFrame};
+  ClazzFrameUnit in 'ClazzFrameUnit.pas' {frameClazz: TFrame},
+  EditFormUnit in 'EditFormUnit.pas' {EditForm},
+  EventEmitterUnit in 'EventEmitterUnit.pas';
 
 {$R *.res}
 
@@ -19,5 +21,6 @@ begin
   Application.Initialize;
   Application.CreateForm(TMainForm, MainForm);
   Application.CreateForm(TLogin, Login);
+  Application.CreateForm(TEditForm, EditForm);
   Application.Run;
 end.

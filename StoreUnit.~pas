@@ -3,7 +3,7 @@ unit StoreUnit;
 interface
 
 uses
-  ADODB, Classes, ActiveX, Dialogs;
+  ADODB, Classes, ActiveX, Dialogs, StudentUnit;
 
 type
   LoginResult = record
@@ -17,6 +17,8 @@ type
   end;
 
   TStore = class(TObject)
+  public
+    willEditStudent: TStudent;
   public
     function Login(const username, password: WideString): LoginResult;
     function Reg(const username, password: WideString): RegResult;

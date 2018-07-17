@@ -78,6 +78,7 @@ begin
         Next;
       end;
     end;
+    Close;
   end;
   Result := list;
 end;
@@ -100,6 +101,7 @@ begin
       First;
       First;
       Result := from(Query);
+      Close;
     end;
   end;
 end;

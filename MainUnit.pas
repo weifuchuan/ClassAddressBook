@@ -8,14 +8,12 @@ uses
 
 type
   TMainForm = class(TForm)
-    menu: TMainMenu;
-    mItemFile: TMenuItem;
-    mItemHelp: TMenuItem;
-    mItemQuit: TMenuItem;
-    mItemQuitLogin: TMenuItem;
+    scrollClazzes: TScrollBox;
+    pnlClazzes: TPanel;
     procedure FormPaint(Sender: TObject);
     procedure mItemQuitClick(Sender: TObject);
     procedure mItemQuitLoginClick(Sender: TObject);
+
   private
     { Private declarations }
   public
@@ -30,7 +28,8 @@ implementation
 {$R *.dfm}
 
 uses
-  StoreUnit, LoginUnit, StudentFrameUnit, UserUnit;
+  StoreUnit, LoginUnit, StudentFrameUnit, UserUnit, StudentUnit, ClazzFrameUnit,
+  ClazzUnit;
 
 procedure TMainForm.FormPaint(Sender: TObject);
 begin
@@ -50,6 +49,8 @@ begin
   Store.Quit;
   Login.ShowModal;
 end;
+
+
 
 end.
 

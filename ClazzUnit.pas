@@ -80,7 +80,8 @@ begin
     with Query do
     begin
       Close;
-      sql.Text := 'select * from `clazz`';
+      sql.Text := 'select * from `clazz` where userId=:userId';
+      Parameters.ParamByName('userId').Value := Store.MyId;
       Open;
       setlength(Result, recordCount);
       First;

@@ -32,6 +32,7 @@ type
   public
     function FindAll: TStudentList;
     function FindByCLazzId(id: Integer): TStudentList;
+    procedure Save(student: TStudent);
   private
     Query: TADOQuery;
     constructor Create(conn: TADOConnection);
@@ -97,7 +98,8 @@ begin
     with Query do
     begin
       Close;
-      SQL.Text := 'select * from `student`';
+      SQL.Text := 'select * from `student` where userId=:userId';
+      Parameters.ParamByName('userId').Value := Store.MyId;
       Open;
       First;
       SetLength(list, RecordCount);
@@ -121,13 +123,48 @@ begin
     with Query do
     begin
       Close;
-      SQL.Text := 'select * from `student` where clazzId=:id';
+      SQL.Text := 'select * from `student` where clazzId=:id and userId=:userId';
       Parameters.ParamByName('id').Value := id;
+      Parameters.ParamByName('userId').Value := Store.MyId;
       Open;
       SetLength(Result, RecordCount);
+      First;
       for i := 0 to RecordCount do
       begin
         Result[i] := from(Query);
+        Next;
+      end;
+      Close;
+    end;
+  end;
+end;
+
+procedure TStudentDao.Save(student: TStudent);
+begin
+  with Self do
+  begin
+    with Query do
+    begin
+      Close;
+      if student.Id = 0 then // add
+      begin
+        SQL.Text := 'insert into `student`(studentName, phone, address, clazzId, userId) values(:studentName, :phone, :address, :clazzId, :userId)';
+        Parameters.ParamByName('name').Value := student.Name;
+        Parameters.ParamByName('phone').Value := student.Phone;
+        Parameters.ParamByName('address').Value := student.Address;
+        Parameters.ParamByName('clazzId').Value := student.clazzId;
+        Parameters.ParamByName('userId').Value := student.userId;
+        ExecSQL;
+      end
+      else  // modify
+      begin
+        SQL.Text := 'update `student` set studentName=:name, phone=:phone, address=:address, clazzId=:clazzId where ID=:id';
+        Parameters.ParamByName('id').Value := student.Id;
+        Parameters.ParamByName('name').Value := student.Name;
+        Parameters.ParamByName('phone').Value := student.Phone;
+        Parameters.ParamByName('address').Value := student.Address;
+        Parameters.ParamByName('clazzId').Value := student.clazzId;
+        ExecSQL;
       end;
       Close;
     end;

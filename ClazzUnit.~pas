@@ -17,6 +17,7 @@ type
     ClazzNumber: WideString;
     UserId: Integer;
   private
+//    _students
   end;
 
   TClazzList = array of TClazz;
@@ -36,7 +37,7 @@ var
 implementation
 
 uses
-  StoreUnit;
+  StoreUnit, StudentUnit;
 
 function from(ds: TDataSet): TClazz;
 begin
@@ -88,6 +89,7 @@ begin
         Result[i] := from(Query);
         Next;
       end;
+      Close;
     end;
   end;
 end;
@@ -106,6 +108,7 @@ begin
         raise DataNotFoundException.Create('Clazz not found by id = ' + inttostr(id));
       First;
       Result := from(Query);
+      Close;
     end;
   end;
 end;

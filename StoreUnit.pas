@@ -3,7 +3,7 @@ unit StoreUnit;
 interface
 
 uses
-  ADODB, Classes, ActiveX, Dialogs;
+  ADODB, Classes, ActiveX, Dialogs, StudentUnit;
 
 type
   LoginResult = record
@@ -18,9 +18,12 @@ type
 
   TStore = class(TObject)
   public
+    willEditStudent: TStudent;
+  public
     function Login(const username, password: WideString): LoginResult;
     function Reg(const username, password: WideString): RegResult;
     procedure Quit();
+    
   private
     dbConn: TADOConnection;
     userTable: TADOTable;
@@ -29,8 +32,10 @@ type
     constructor Create();
     function HasLoged: Boolean;
     function GetConn: TADOConnection;
+    function GetLoggedUserId: Integer;
   public
     property Loged: Boolean read HasLoged;
+    property MyId: integer read GetLoggedUserId;
     property Conn: TADOConnection read GetConn;
     destructor Destruct();
   end;
@@ -157,6 +162,11 @@ end;
 function TStore.GetConn: TADOConnection;
 begin
   Result := self.dbConn;
+end;
+
+function TStore.GetLoggedUserId: Integer;
+begin
+  Result := Self.logedUserId;
 end;
 
 procedure TStore.Quit();

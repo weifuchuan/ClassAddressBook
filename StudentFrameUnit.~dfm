@@ -4,13 +4,13 @@ object StudentFrame: TStudentFrame
   Width = 337
   Height = 106
   Align = alCustom
-  Color = cl3DLight
+  Color = clInactiveCaption
   ParentColor = False
   TabOrder = 0
   object labelName: TLabel
     Left = 48
     Top = 8
-    Width = 272
+    Width = 56
     Height = 16
     Caption = 'labelName'
     Font.Charset = DEFAULT_CHARSET
@@ -23,8 +23,8 @@ object StudentFrame: TStudentFrame
   object label2: TLabel
     Left = 8
     Top = 8
-    Width = 32
-    Height = 16
+    Width = 36
+    Height = 13
     Caption = #22995#21517#65306
     Font.Charset = DEFAULT_CHARSET
     Font.Color = clWindowText
@@ -36,8 +36,8 @@ object StudentFrame: TStudentFrame
   object label3: TLabel
     Left = 8
     Top = 32
-    Width = 32
-    Height = 16
+    Width = 36
+    Height = 13
     Caption = #30005#35805#65306
     Font.Charset = DEFAULT_CHARSET
     Font.Color = clWindowText
@@ -49,7 +49,7 @@ object StudentFrame: TStudentFrame
   object labelPhone: TLabel
     Left = 48
     Top = 32
-    Width = 272
+    Width = 59
     Height = 16
     Caption = 'labelPhone'
     Font.Charset = DEFAULT_CHARSET
@@ -62,8 +62,8 @@ object StudentFrame: TStudentFrame
   object label4: TLabel
     Left = 8
     Top = 56
-    Width = 32
-    Height = 16
+    Width = 36
+    Height = 13
     Caption = #22320#22336#65306
     Font.Charset = DEFAULT_CHARSET
     Font.Color = clWindowText
@@ -81,8 +81,8 @@ object StudentFrame: TStudentFrame
     object labelAddress: TLabel
       Left = 0
       Top = 0
-      Width = 245
-      Height = 17
+      Width = 60
+      Height = 13
       Caption = 'labelAddress'
       Font.Charset = DEFAULT_CHARSET
       Font.Color = clWindowText
@@ -90,6 +90,16 @@ object StudentFrame: TStudentFrame
       Font.Name = 'MS Sans Serif'
       Font.Style = []
       ParentFont = False
+    end
+  end
+  object pmEdit: TPopupMenu
+    Left = 312
+    object Edit: TMenuItem
+      Caption = #32534#36753
+      OnClick = EditClick
+    end
+    object N2: TMenuItem
+      Caption = #21024#38500
     end
   end
 end
