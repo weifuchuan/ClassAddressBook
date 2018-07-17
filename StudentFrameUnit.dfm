@@ -72,6 +72,22 @@ object StudentFrame: TStudentFrame
     Font.Style = []
     ParentFont = False
   end
+  object btnEdit: TSpeedButton
+    Left = 288
+    Top = 0
+    Width = 23
+    Height = 22
+    Caption = 'U'
+    OnClick = EditClick
+  end
+  object btnDelete: TSpeedButton
+    Left = 313
+    Top = 0
+    Width = 23
+    Height = 22
+    Caption = 'D'
+    OnClick = mItemDeleteClick
+  end
   object scrlbx1: TScrollBox
     Left = 48
     Top = 56
@@ -93,14 +109,13 @@ object StudentFrame: TStudentFrame
     end
   end
   object pmEdit: TPopupMenu
-    TrackButton = tbLeftButton
-    Left = 312
     object Edit: TMenuItem
       Caption = #32534#36753
       OnClick = EditClick
     end
-    object N2: TMenuItem
+    object mItemDelete: TMenuItem
       Caption = #21024#38500
+      OnClick = mItemDeleteClick
     end
   end
 end

@@ -3,7 +3,7 @@ unit ExceptionsUnit;
 interface
 
 uses
-  SysUtils;
+  ShareMem, SysUtils;
 
 type
   DataNotFoundException = class(Exception);

@@ -3,8 +3,8 @@ unit EditFormUnit;
 interface
 
 uses
-  Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
-  Dialogs, StdCtrls;
+  ShareMem, Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls,
+  Forms, Dialogs, StdCtrls;
 
 type
   TEditForm = class(TForm)
@@ -44,7 +44,7 @@ var
   i: Integer;
 begin
   self.student := Store.willEditStudent;
-  with Store.willEditStudent do
+  with Store.willEditStudent as TStudent do
   begin
     self.editName.Text := Name;
     self.editPhone.Text := Phone;

@@ -3,11 +3,11 @@ unit LoginUnit;
 interface
 
 uses
-  Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
-  Dialogs, StdCtrls;
+  ShareMem, Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls,
+  Forms, Dialogs, StdCtrls;
 
 type
-  TLogin = class(TForm)
+  TLoginForm = class(TForm)
     editUserName: TEdit;
     editPassword: TEdit;
     lbl2: TLabel;
@@ -23,7 +23,7 @@ type
   end;
 
 var
-  Login: TLogin;
+  LoginForm: TLoginForm;
 
 implementation
 
@@ -58,7 +58,7 @@ begin
   end;
 end;
 
-procedure TLogin.btnLoginClick(Sender: TObject);
+procedure TLoginForm.btnLoginClick(Sender: TObject);
 var
   userName: WideString;
   password: WideString;
@@ -69,7 +69,7 @@ begin
   lr := Store.Login(userName, password);
   if lr.Ok then
   begin
-    Login.ModalResult := mrOk;
+    Self.ModalResult := mrOk;
   end
   else
   begin
@@ -84,7 +84,7 @@ begin
   end;
 end;
 
-procedure TLogin.btnRegClick(Sender: TObject);
+procedure TLoginForm.btnRegClick(Sender: TObject);
 var
   userName: WideString;
   password: WideString;
@@ -103,7 +103,7 @@ begin
   rr := Store.Reg(userName, password);
   if rr.Ok then
   begin
-    Login.ModalResult := mrOk;
+    ShowMessage('×¢²á³É¹¦£¬ÇëµÇÂ¼');
   end
   else
   begin

@@ -6,6 +6,8 @@ uses
   IniFiles;
 
 type
+  
+
   TListenner = procedure of object;
 
   TListennerList = array of TListenner;
@@ -15,6 +17,7 @@ type
   TEventEmitter = class
   public
     constructor Create();
+    procedure addEventListenner(event:string; );
   private
     map: THashedStringList;
   end;

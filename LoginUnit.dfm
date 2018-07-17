@@ -1,4 +1,4 @@
-object Login: TLogin
+object LoginForm: TLoginForm
   Left = 438
   Top = 281
   Width = 347
@@ -30,7 +30,7 @@ object Login: TLogin
   object lbl1: TLabel
     Left = 16
     Top = 24
-    Width = 65
+    Width = 48
     Height = 16
     Caption = #29992#25143#21517#65306
     Font.Charset = DEFAULT_CHARSET

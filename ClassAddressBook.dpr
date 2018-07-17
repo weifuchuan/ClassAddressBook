@@ -1,10 +1,11 @@
 program ClassAddressBook;
 
 uses
+  ShareMem,
   Forms,
-  MainUnit in 'MainUnit.pas' {MainForm},
-  LoginUnit in 'LoginUnit.pas' {Login},
   StoreUnit in 'StoreUnit.pas',
+  MainUnit in 'MainUnit.pas' {MainForm},
+  LoginUnit in 'LoginUnit.pas' {LoginForm},
   RegExpr in 'RegExpr.pas',
   StudentFrameUnit in 'StudentFrameUnit.pas' {StudentFrame: TFrame},
   StudentUnit in 'StudentUnit.pas',
@@ -12,15 +13,17 @@ uses
   UserUnit in 'UserUnit.pas',
   ExceptionsUnit in 'ExceptionsUnit.pas',
   ClazzFrameUnit in 'ClazzFrameUnit.pas' {frameClazz: TFrame},
-  EditFormUnit in 'EditFormUnit.pas' {EditForm},
-  EventEmitterUnit in 'EventEmitterUnit.pas';
+  EditClazzUnit in 'EditClazzUnit.pas' {FrmEditClazz},
+  EditStudentUnit in 'EditStudentUnit.pas' {EditStudent};
 
 {$R *.res}
 
 begin
   Application.Initialize;
   Application.CreateForm(TMainForm, MainForm);
-  Application.CreateForm(TLogin, Login);
-  Application.CreateForm(TEditForm, EditForm);
+  Application.CreateForm(TLoginForm, LoginForm);
+  Application.CreateForm(TFrmEditClazz, FrmEditClazz);
+  Application.CreateForm(TEditStudent, EditStudent);
   Application.Run;
 end.
+

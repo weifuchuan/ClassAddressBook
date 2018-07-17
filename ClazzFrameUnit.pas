@@ -3,18 +3,36 @@ unit ClazzFrameUnit;
 interface
 
 uses
-  Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
-  Dialogs, StudentFrameUnit, ClazzUnit, StudentUnit, ExtCtrls, StdCtrls;
+  ShareMem, Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls,
+  Forms, Dialogs, StudentFrameUnit, ClazzUnit, StudentUnit, ExtCtrls, StdCtrls;
 
 type
   TframeClazz = class(TFrame)
     grp: TGroupBox;
     scrlbxStudents: TScrollBox;
     panelStudents: TPanel;
+    btnEdit: TButton;
+    btnDelete: TButton;
+    labelProfession: TLabel;
+    labelGrade: TLabel;
+    labelCollege: TLabel;
+    labelClazzNumber: TLabel;
+    labelAcademy: TLabel;
+    label9: TLabel;
+    label8: TLabel;
+    label7: TLabel;
+    label10: TLabel;
+    Label1: TLabel;
+    procedure btnEditClick(Sender: TObject);
+    procedure btnDeleteClick(Sender: TObject);
   private
     clazz: TClazz;
     students: TStudentList;
   public
+    OnStudentEdited: procedure of object;
+    OnStudentDeleted: procedure of object;
+    OnEdited: procedure of object;
+    OnDeleted: procedure of object;
     procedure Init(clz: TClazz; stdnts: TStudentList);
     procedure Clear;
   end;
@@ -22,6 +40,9 @@ type
 implementation
 
 {$R *.dfm}
+
+uses
+  EditClazzUnit, StoreUnit;
 
 procedure TframeClazz.Init(clz: TClazz; stdnts: TStudentList);
 var
@@ -41,9 +62,19 @@ begin
     studentFrame.Init(stdnts[i]);
     studentFrame.Left := 5;
     studentFrame.Top := top;
-//    studentFrame.OnEdited:=
+    studentFrame.OnEdited := self.onStudentEdited;
+    studentFrame.OnDeleted := self.onStudentDeleted;
     top := top + studentFrame.Height + 5;
     Self.panelStudents.InsertControl(studentFrame);
+  end;
+  with self.clazz do
+  begin
+    Self.grp.Caption := BriefName;
+    labelAcademy.Caption := Academy;
+    labelCollege.Caption := College;
+    labelProfession.Caption := Profession;
+    labelGrade.Caption := Grade;
+    labelClazzNumber.Caption := ClazzNumber;
   end;
 end;
 
@@ -60,6 +91,38 @@ begin
     begin
       ctrl := Controls[i];
       RemoveControl(ctrl);
+    end;
+  end;
+end;
+
+procedure TframeClazz.btnEditClick(Sender: TObject);
+begin
+  Store.willEditClazz := self.clazz;    
+  if FrmEditClazz.ShowModal = mrOk then
+  begin
+    if Assigned(Self.OnEdited) then
+    begin
+      self.OnEdited;
+    end;
+  end;
+end;
+
+procedure TframeClazz.btnDeleteClick(Sender: TObject);
+begin
+  if Application.MessageBox('确认删除班级？', '删除班级', MB_OKCANCEL) = IDOK then
+  begin
+    try
+      ClazzDao.Delete(self.clazz);
+    except
+      on E: Exception do
+      begin
+        ShowMessage(e.Message);
+        exit;
+      end;
+    end;
+    if Assigned(Self.OnDeleted) then
+    begin
+      self.OnEdited;
     end;
   end;
 end;

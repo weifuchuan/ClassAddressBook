@@ -3,7 +3,7 @@ unit ClazzUnit;
 interface
 
 uses
-  UserUnit, ADODB, DB, ExceptionsUnit, SysUtils;
+  ShareMem, UserUnit, ADODB, DB, ExceptionsUnit, SysUtils;
 
 type
   TClazz = class(TObject)
@@ -26,6 +26,8 @@ type
   public
     function FindAll: TClazzList;
     function GetById(id: Integer): TClazz;
+    procedure Save(clz: TClazz);
+    procedure Delete(clz: TClazz);
   private
     Query: TADOQuery;
     constructor Create(conn: TADOConnection);
@@ -109,6 +111,62 @@ begin
         raise DataNotFoundException.Create('Clazz not found by id = ' + inttostr(id));
       First;
       Result := from(Query);
+      Close;
+    end;
+  end;
+end;
+
+procedure TClazzDao.Save(clz: TClazz);
+begin
+  with Self do
+  begin
+    with Query do
+    begin
+      Close;
+      if clz.Id = 0 then
+      begin
+        SQL.Text := 'insert into `clazz`(briefName, college, academy, profession, grade, clazzNumber, userId) values(:briefName, :college, :academy, :profession, :grade, :clazzNumber, :userId) ';
+        with Parameters do
+        begin
+          ParamByName('briefName').Value := clz.BriefName;
+          ParamByName('college').Value := clz.college;
+          ParamByName('academy').Value := clz.academy;
+          ParamByName('profession').Value := clz.profession;
+          ParamByName('grade').Value := clz.grade;
+          ParamByName('clazzNumber').Value := clz.clazzNumber;
+          ParamByName('userId').Value := clz.userId;
+        end;
+      end
+      else
+      begin
+        SQL.Text := 'update `clazz` set briefName=:briefName, college=:college, academy=:academy, profession=:profession, grade=:grade, clazzNumber=:clazzNumber where ID=:id ';
+        with Parameters do
+        begin
+          ParamByName('briefName').Value := clz.BriefName;
+          ParamByName('college').Value := clz.college;
+          ParamByName('academy').Value := clz.academy;
+          ParamByName('profession').Value := clz.profession;
+          ParamByName('grade').Value := clz.grade;
+          ParamByName('clazzNumber').Value := clz.clazzNumber;
+          ParamByName('id').Value := clz.Id;
+        end;
+      end;
+      ExecSQL;
+      Close;
+    end;
+  end;
+end;
+
+procedure TClazzDao.Delete(clz: TClazz);
+begin
+  with Self do
+  begin
+    with Query do
+    begin
+      Close;
+      SQL.Text := 'delete from `clazz` where ID=:id';
+      Parameters.ParamByName('id').Value := clz.Id;
+      ExecSQL;
       Close;
     end;
   end;

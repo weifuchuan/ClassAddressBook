@@ -17,7 +17,7 @@ type
   TEventEmitter = class
   public
     constructor Create();
-    procedure addEventListenner(event:string; );
+//    procedure addEventListenner(event:string; );
   private
     map: THashedStringList;
   end;

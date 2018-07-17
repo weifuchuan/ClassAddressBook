@@ -3,11 +3,11 @@ unit LoginUnit;
 interface
 
 uses
-  Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
-  Dialogs, StdCtrls;
+  ShareMem, Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls,
+  Forms, Dialogs, StdCtrls;
 
 type
-  TLogin = class(TForm)
+  TLoginForm = class(TForm)
     editUserName: TEdit;
     editPassword: TEdit;
     lbl2: TLabel;
@@ -23,7 +23,7 @@ type
   end;
 
 var
-  Login: TLogin;
+  LoginForm: TLoginForm;
 
 implementation
 
@@ -34,13 +34,13 @@ uses
 
 function judgeUserName(const UserName: WideString): Boolean;
 begin
-  if ExecRegExpr('^[a-zA-Z\x{4e00}-\x{9fa5}][a-zA-Z\x{4e00}-\x{9fa5}0-9]{1,20}$', UserName) then
+  if Length(UserName) >= 1 then
   begin
     Result := True;
   end
   else
   begin
-    ShowMessage('用户名必须为1-20位的汉字、字母、数字(首字不应为数字)');
+    ShowMessage('用户名长度必须大于1');
     Result := False;
   end;
 end;
@@ -58,7 +58,7 @@ begin
   end;
 end;
 
-procedure TLogin.btnLoginClick(Sender: TObject);
+procedure TLoginForm.btnLoginClick(Sender: TObject);
 var
   userName: WideString;
   password: WideString;
@@ -69,7 +69,7 @@ begin
   lr := Store.Login(userName, password);
   if lr.Ok then
   begin
-    Login.ModalResult := mrOk;
+    Self.ModalResult := mrOk;
   end
   else
   begin
@@ -84,7 +84,7 @@ begin
   end;
 end;
 
-procedure TLogin.btnRegClick(Sender: TObject);
+procedure TLoginForm.btnRegClick(Sender: TObject);
 var
   userName: WideString;
   password: WideString;
@@ -103,7 +103,7 @@ begin
   rr := Store.Reg(userName, password);
   if rr.Ok then
   begin
-    Login.ModalResult := mrOk;
+    LoginForm.ModalResult := mrOk;
   end
   else
   begin

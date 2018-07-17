@@ -3,7 +3,7 @@ unit UserUnit;
 interface
 
 uses
-  ADODB, DB, ExceptionsUnit, SysUtils;
+  ADODB, DB, ExceptionsUnit, SysUtils, ShareMem;
 
 type
   TUser = class(TObject)
@@ -77,8 +77,8 @@ begin
         list[i] := from(Query);
         Next;
       end;
+      Close;
     end;
-    Close;
   end;
   Result := list;
 end;

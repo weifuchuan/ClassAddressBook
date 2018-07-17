@@ -3,7 +3,7 @@ unit UserUnit;
 interface
 
 uses
-  ADODB, DB, ExceptionsUnit, SysUtils;
+  ShareMem, ADODB, DB, ExceptionsUnit, SysUtils;
 
 type
   TUser = class(TObject)

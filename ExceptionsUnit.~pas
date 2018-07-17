@@ -1,0 +1,14 @@
+unit ExceptionsUnit;
+
+interface
+
+uses
+  SysUtils, ShareMem;
+
+type
+  DataNotFoundException = class(Exception);
+
+implementation
+
+end.
+

@@ -3,7 +3,7 @@ unit StoreUnit;
 interface
 
 uses
-  ADODB, Classes, ActiveX, Dialogs, StudentUnit;
+  ShareMem, ADODB, Classes, ActiveX, Dialogs{, StudentUnit, ClazzUnit};
 
 type
   LoginResult = record
@@ -18,12 +18,12 @@ type
 
   TStore = class(TObject)
   public
-    willEditStudent: TStudent;
+    willEditStudent: TObject;
+    willEditClazz: TObject;
   public
     function Login(const username, password: WideString): LoginResult;
     function Reg(const username, password: WideString): RegResult;
     procedure Quit();
-    
   private
     dbConn: TADOConnection;
     userTable: TADOTable;
@@ -49,7 +49,6 @@ constructor TStore.Create();
 begin
   CoInitialize(nil); // Must be called but I don't know why.
   Self.dbConn := TADOConnection.Create(nil);
-  //Provider=Microsoft.Jet.OLEDB.4.0;Data Source=ClassAddressBook.mdb;Persist Security Info=False
   Self.dbConn.ConnectionString := 'Provider=Microsoft.Jet.OLEDB.4.0;Data Source=ClassAddressBook.mdb;Persist Security Info=False';
   Self.dbConn.Open;
 
@@ -59,11 +58,6 @@ begin
   Self.userTable.TableName := '`user`';
   Self.userTable.Open;
   Self.logedUserId := 0;
-
-//  Self.dataSet := TADODataSet.Create(nil);
-//  Self.dataSet.Connection := Self.dbConn;
-//  Self.query := TADOQuery.Create(nil);
-//  Self.query.Connection := Self.dbConn;
   Self.addUser := TADOQuery.Create(nil);
   self.addUser.Connection := self.dbConn;
   with Self.addUser do
@@ -76,7 +70,6 @@ begin
     end;
     Prepared := True;
   end;
-
 end;
 
 function TStore.Login(const username, password: WideString): LoginResult;
@@ -86,6 +79,8 @@ var
 begin
   with Self do
   begin
+    userTable.Close;
+    userTable.Open;
     userTable.Filtered := False;
     filter := 'username=''' + string(username) + '''';
     userTable.Filter := filter;
@@ -122,6 +117,8 @@ begin
   with Self do
   begin
     addUser.Close;
+    userTable.Close;
+    userTable.Open;
     userTable.Filtered := False;
     userTable.Filter := 'username=''' + username + '''';
     userTable.Filtered := True;
@@ -156,7 +153,10 @@ end;
 
 function TStore.HasLoged: Boolean;
 begin
-  Result := not self.logedUserId = 0;
+  if self.logedUserId = 0 then
+    Result := False
+  else
+    Result := True;
 end;
 
 function TStore.GetConn: TADOConnection;
@@ -183,9 +183,14 @@ begin
 end;
 
 initialization
+begin
   Store := TStore.Create;
+end;
 
 finalization
+begin
+  Store.dbConn.Close;
+end;
 
 end.
 
