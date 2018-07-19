@@ -16,6 +16,7 @@ type
     Grade: WideString;
     ClazzNumber: WideString;
     UserId: Integer;
+    class function from(ds: TDataSet): TClazz;
   private
 //    _students
   end;
@@ -41,7 +42,7 @@ implementation
 uses
   StoreUnit, StudentUnit;
 
-function from(ds: TDataSet): TClazz;
+class function TClazz.from(ds: TDataSet): TClazz;
 begin
   Result := TClazz.Create;
   with ds do
@@ -89,7 +90,7 @@ begin
       First;
       for i := 0 to RecordCount - 1 do
       begin
-        Result[i] := from(Query);
+        Result[i] := TClazz.from(Query);
         Next;
       end;
       Close;
@@ -110,7 +111,7 @@ begin
       if not Query.RecordCount = 1 then
         raise DataNotFoundException.Create('Clazz not found by id = ' + inttostr(id));
       First;
-      Result := from(Query);
+      Result := TClazz.from(Query);
       Close;
     end;
   end;

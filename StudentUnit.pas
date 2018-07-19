@@ -16,6 +16,7 @@ type
     Address: WideString;
     UserId: Integer;
     ClazzId: Integer;
+    class function from(ds: TDataSet): TStudent;
   private
     _user: TUser;
     _clazz: TClazz;
@@ -47,7 +48,7 @@ implementation
 uses
   StoreUnit;
 
-function from(ds: TDataSet): TStudent;
+class function TStudent.from(ds: TDataSet): TStudent;
 begin
   Result := TStudent.Create;
   with ds do
@@ -106,7 +107,7 @@ begin
       SetLength(list, RecordCount);
       for i := 0 to RecordCount - 1 do
       begin
-        list[i] := from(Query);
+        list[i] := TStudent.from(Query);
         Next;
       end;
       Close;
@@ -132,7 +133,7 @@ begin
       First;
       for i := 0 to RecordCount - 1 do
       begin
-        Result[i] := from(Query);
+        Result[i] := TStudent.from(Query);
         Next;
       end;
       Close;
